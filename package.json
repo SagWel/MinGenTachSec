@@ -21,6 +21,7 @@
   "homepage": "https://github.com/SagWel/MinGenTachSec#readme",
   "dependencies": {
     "concurrently": "^9.2.1",
-    "dotenv": "^17.3.1"
+    "dotenv": "^17.3.1",
+    "lucide-react": "^0.576.0"
   }
 }
