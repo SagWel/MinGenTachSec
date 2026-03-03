@@ -1,7 +1,7 @@
 import '../styles.css'
 import FormulaireInscription from '../Components/FormulaireInscription'
 import { useState } from 'react'
-// import FormulaireConnexion from '../Components/FormulaireConnexion'
+import FormulaireConnexion from '../Components/FormulaireConnexion'
 
 const PageConnexions = () => {
     const [loginRegister, setloginRegister] = useState("login")
@@ -18,7 +18,7 @@ const PageConnexions = () => {
         size-full text-center mt-12 gap-30">
             <h1 className='text-gray-50 text-4xl'>Sticky Pocket</h1>
             <div>
-                {loginRegister === "login" ? <div></div> : <FormulaireInscription />}
+                {loginRegister === "login" ? <FormulaireConnexion/> : <FormulaireInscription />}
             </div>
             <button type='button'className="w-full max-w-[512px] mt-4 bg-blue-600 text-white py-8 rounded-full hover:bg-blue-700 transition"
             onClick={handleOnclick}>
