@@ -34,15 +34,14 @@ const PageConnexions = () => {
     }
 
     return (
-        <>
-            <div>
-                {loginRegister === "login" ? <FormulaireConnexion /> : <FormulaireInscription />}
-            </div>
-            <button type='button' className="w-full max-w-[512px] mt-4 bg-blue-600 text-white py-8 rounded-full hover:bg-blue-700 transition"
+        <div className='h-full flex flex-col items-center justify-between'>
+            {loginRegister === "login" ? <FormulaireConnexion onClickLogin={handleOnSubmitLogin}/> : <FormulaireInscription onClickRegister={handleOnSubmitRegister}/>}
+            
+            <button type='button' className="w-full max-w-lg mt-4 bg-blue-600 text-white py-8 rounded-full hover:bg-blue-700 transition"
                 onClick={handleOnclickSwitch}>
                 <span className='text-2xl'>{loginRegister === "login" ? "Registering" : "Login"}</span>
             </button>
-        </>
+        </div>
 )
 }
 
