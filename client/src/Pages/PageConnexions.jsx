@@ -9,14 +9,11 @@ const PageConnexions = () => {
     const handleOnclick = () => {
         if (loginRegister === "login") {
             setloginRegister("register")
-        } else {
-            setloginRegister("login")
+        } else {setloginRegister("login")
         }
     }
     return (
-        <div className="flex items-center justify-center flex-col 
-        size-full text-center mt-12 gap-30">
-            <h1 className='text-gray-50 text-4xl'>Sticky Pocket</h1>
+        <>
             <div>
                 {loginRegister === "login" ? <FormulaireConnexion/> : <FormulaireInscription />}
             </div>
@@ -24,7 +21,7 @@ const PageConnexions = () => {
             onClick={handleOnclick}>
                 <span className='text-2xl'>{loginRegister === "login" ? "Registering" : "Login"}</span>
             </button>
-         </div>
+        </>
 )
 }
 
