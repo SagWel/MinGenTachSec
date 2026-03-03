@@ -11,8 +11,7 @@ const PageConnexions = () => {
     const handleOnclickSwitch = () => {
         if (loginRegister === "login") {
             setloginRegister("register")
-        } else {
-            setloginRegister("login")
+        } else {setloginRegister("login")
         }
     }
 
@@ -35,16 +34,16 @@ const PageConnexions = () => {
     }
 
     return (
-        <div className="flex items-center justify-between flex-col 
-        size-full text-center pt-12 h-full">
-            <h1 className='text-gray-50 text-4xl'>Sticky Pocket</h1>
-            {loginRegister === "login" ? <FormulaireConnexion onClickLogin={handleOnSubmitLogin}/> : <FormulaireInscription onClickRegister={handleOnSubmitRegister}/>}
-            <button type='button' className="w-full max-w-lg mt-4 bg-blue-600 text-white py-8 rounded-full hover:bg-blue-700 transition"
+        <>
+            <div>
+                {loginRegister === "login" ? <FormulaireConnexion /> : <FormulaireInscription />}
+            </div>
+            <button type='button' className="w-full max-w-[512px] mt-4 bg-blue-600 text-white py-8 rounded-full hover:bg-blue-700 transition"
                 onClick={handleOnclickSwitch}>
                 <span className='text-2xl'>{loginRegister === "login" ? "Registering" : "Login"}</span>
             </button>
-        </div>
-    )
+        </>
+)
 }
 
 export default PageConnexions
