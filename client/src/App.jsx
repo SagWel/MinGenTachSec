@@ -1,4 +1,3 @@
-import { Routes, Route } from "react-router-dom"
 import PageConnexions from "./Pages/PageConnexions"
 import PageHome from "./Pages/PageHome"
 import { useState } from "react"
@@ -8,11 +7,11 @@ function App() {
 
   if (!isLoggedIn) {
     return (
-          <PageConnexions />
-      )
+      <PageConnexions />
+    )
   } else {
     return (
-        <PageHome />
+      <PageHome />
     )
   }
 }
