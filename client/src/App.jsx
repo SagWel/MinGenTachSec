@@ -3,7 +3,7 @@ import PageHome from "./Pages/PageHome"
 import { useState } from "react"
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   if (!isLoggedIn) {
     return (
