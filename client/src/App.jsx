@@ -5,17 +5,14 @@ import { useState } from "react"
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+
   if (!isLoggedIn) {
     return (
-      <Routes>
-        <Route path="/" element={<PageConnexions />} />
-      </Routes>
+      <PageConnexions />
     )
   } else {
     return (
-      <Routes>
-        <Route path="/" element={<PageHome />} />
-      </Routes>
+      <PageHome />
     )
   }
 }
