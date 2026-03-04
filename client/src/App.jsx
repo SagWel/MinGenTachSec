@@ -5,7 +5,6 @@ import { useState } from "react"
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-  
     return (
       <div className="flex items-center justify-center relative flex-col 
         size-full text-center gap-20">
