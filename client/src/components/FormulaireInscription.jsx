@@ -1,12 +1,22 @@
+import e from "cors"
 import { useState } from "react"
 
-const FormulaireInscription = ({onClickRegister}) => {
+const FormulaireInscription = ({onClickRegister, set}) => {
     const [password, setPassword] = useState('')
+    const [username, setUsername] = useState('')
+    const [email, setEmail] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [isError, setIsError] = useState(false)
 
-    const handleSubmit = (e) => {
+    const handleOnClick = (e) => {
         e.preventDefault()
+        const data = JSON.stringify({
+            username: username,
+            email: email,
+            password: password
+        })
+
+        set(data)
 
         if (password < 8 && password === confirmPassword) {
             setIsError(false)
@@ -20,13 +30,13 @@ const FormulaireInscription = ({onClickRegister}) => {
     ${hasError ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}`
 
     return (
-        <div className="w-96 bg-[#FAF2D9] rounded-2xl shadow-lg p-6 flex flex-col">
+        <div className="w-96 bg-[#FAF2D9] rounded-2xl mt-70 shadow-lg p-6 flex flex-col">
 
             <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">
                 Création de compte
             </h2>
 
-            <form className="space-y-3" onSubmit={handleSubmit}>
+            <form className="space-y-3">
 
                 <div>
                     <label htmlFor="username" className="block text-sm font-medium text-gray-700">
@@ -36,6 +46,8 @@ const FormulaireInscription = ({onClickRegister}) => {
                         placeholder="Pseudo"
                         name="username"
                         id="username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                         type="text"
                         className={inpuClass(false)}
                     />
@@ -47,6 +59,8 @@ const FormulaireInscription = ({onClickRegister}) => {
                     </label>
                     <input
                         name="email" id="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         placeholder="Ex : exemple@exemple.com"
                         type="email"
                         className={inpuClass(false)}
@@ -60,6 +74,7 @@ const FormulaireInscription = ({onClickRegister}) => {
                     <input
                         name="password"
                         id="password"
+                        value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="********"
                         type="password"
@@ -86,7 +101,8 @@ const FormulaireInscription = ({onClickRegister}) => {
                     </p>
                 )}
 
-                <button                    
+                <button
+                onClick={handleOnClick}
                     type="submit"
                     className="w-full mt-4 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
                 >

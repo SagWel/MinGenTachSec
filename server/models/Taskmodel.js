@@ -1,5 +1,14 @@
 const db = require(`../config/db`);
 
+(async () => {
+  try {
+    await db.query('SELECT 1');
+    console.log('✅ Base de données connectée');
+  } catch (err) {
+    console.error('❌ BDD indisponible', err);
+  }
+})();
+
 const TaskModel = {
   //récupère toutes les taches
   async findall() {
