@@ -20,8 +20,15 @@
   },
   "homepage": "https://github.com/SagWel/MinGenTachSec#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "concurrently": "^9.2.1",
+    "cors": "^2.8.6",
     "dotenv": "^17.3.1",
-    "lucide-react": "^0.576.0"
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "lucide-react": "^0.576.0",
+    "mysql2": "^3.18.2",
+    "nodemon": "^3.1.14",
+    "router": "^2.2.0"
   }
 }

@@ -1,12 +1,17 @@
 import { X, Pencil } from "lucide-react"
 
-const colors = ["#FFA29A", "#FAF2D9", "#B4F2E5", "#ABD8DF", "#5D6371", "#EEFD43"]
+const colors = ["bg-[#FFA29A] text-black", "bg-[#FAF2D9] text-black", "bg-[#b4f2e5] text-black", "bg-[#ABD8DF] text-black", "bg-[#8495bd] text-white", "bg-[#EEFD43] text-black"]
+// const colors = ["red-600", "emerald-600", "slate-600", "indigo-600"]
 const randomIndex = Math.floor(Math.random() * colors.length)
+console.log(randomIndex);
+
 const randomColor = colors[randomIndex]
+console.log(randomColor);
+
 
 const TaskCards = ({ Task }) => {
     return (
-        <div className={`bg-color-${randomColor}`}>
+        <div className={`${randomColor} w-84 h-84 p-7 font-bold`} >
             <h2>
                 {Task.titre}
             </h2>

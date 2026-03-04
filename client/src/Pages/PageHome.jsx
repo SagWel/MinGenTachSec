@@ -6,17 +6,22 @@ const MockTasks = [
         titre: "First task",
         description: "trucs à faire"
     },
-    {
-        id: 2,
-        titre: "First task",
-        description: "trucs à faire"
-    },
+    // {
+    //     id: 2,
+    //     titre: "Second task",
+    //     description: "trucs à faire"
+    // },
+    // {
+    //     id: 3,
+    //     titre: "Third task",
+    //     description: "trucs à faire"
+    // },
 ]
 
 const PageHome = () => {
     return (
-        <div>
-            <div id="titres">
+        <div className = "flex justify-around w-full">
+            <div id="titres" className="text-white text-xl text-left">
                 <ul id="listeTitres">
                     {MockTasks.map((task) => {
                         return (
@@ -28,10 +33,12 @@ const PageHome = () => {
                     }
                 </ul>
             </div>
-            <div id="cardsContainer">
-                {MockTasks.map((task) => {
+            <div id="cardsContainer grid">
+                {MockTasks.map((task) => (
+
                     <TaskCards key={task.id} Task={task} />
-                })}
+                )
+                )}
             </div>
         </div>
     )

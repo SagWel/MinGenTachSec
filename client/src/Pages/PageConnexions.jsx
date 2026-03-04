@@ -21,13 +21,8 @@ const PageConnexions = () => {
                 onClick={handleOnclick}>
                 <span className='text-2xl'>{loginRegister === "login" ? "Registering" : "Login"}</span>
             </button>
-<<<<<<< HEAD
         </>
-)
-=======
-        </div>
     )
->>>>>>> origin
 }
 
 export default PageConnexions
