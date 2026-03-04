@@ -9,7 +9,7 @@ const randomColor = colors[randomIndex]
 console.log(randomColor);
 
 
-const TaskCards = ({ Task }) => {
+const TaskCards = ({ Task, submitDelete, submitEdit }) => {
     return (
         <div className={`${randomColor} w-84 h-84 p-7 font-bold`} >
             <h2>
@@ -18,10 +18,10 @@ const TaskCards = ({ Task }) => {
             <p>
                 {Task.description}
             </p>
-            <button>
+            <button type="submit" onClick={submitDelete}>
                 <X />
             </button>
-            <button>
+            <button type="submit" onClick={submitEdit}>
                 <Pencil />
             </button>
         </div >

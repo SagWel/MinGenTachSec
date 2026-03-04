@@ -1,58 +1,92 @@
-const formulaireInscription = () => {
-    return (
-        <div className="w-96 bg-[#FAF2D9] rounded-2xl shadow-lg p-6">
+import { useState } from "react"
 
-            <h2 className="text-xl  bg-[#FAF2D9] font-bold text-gray-800 mb-4 text-center">
+const FormulaireInscription = ({onClickRegister}) => {
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [isError, setIsError] = useState(false)
+
+    const handleSubmit = (e) => {
+        e.preventDEfault()
+
+        if (password >= 8 && password === confirmPassword) {
+            setIsError(false)
+            onClickRegister()
+        } else {
+            setIsError(true)
+        }
+    }
+
+    const inpuClass = (hasError) => `mt-1 w-full rounded-md placeholder:text-center
+    ${hasError ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}`
+
+    return (
+        <div className="w-96 bg-[#FAF2D9] rounded-2xl shadow-lg p-6 flex flex-col">
+
+            <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">
                 Création de compte
             </h2>
 
-            <form className="space-y-3  bg-[#FAF2D9]">
+            <form className="space-y-3" onSubmit={handleSubmit}>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="username" className="block text-sm font-medium text-gray-700">
                         Username
                     </label>
                     <input
                         placeholder="Pseudo"
+                        name="username"
+                        id="username"
                         type="text"
-                        className="mt-1 w-full rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500 placeholder:text-center"
+                        className={inpuClass(false)}
                     />
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                         Email
                     </label>
                     <input
+                        name="email" id="email"
                         placeholder="Ex : exemple@exemple.com"
                         type="email"
-                        className="mt-1 w-full rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500 placeholder:text-center"
+                        className={inpuClass(false)}
                     />
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                         Mot de passe
                     </label>
                     <input
+                        name="password"
+                        id="password"
+                        onChange={(e) => setPassword(e.target.value)}
                         placeholder="********"
                         type="password"
-                        className="mt-1 w-full rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500 placeholder:text-center"
+                        className={inpuClass(isError)}
                     />
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
                         Confirmation mot de passe
                     </label>
                     <input
+                    name="confirmPassword" id="confirmPassword"
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                         placeholder="********"
                         type="password"
-                        className="mt-1 w-full rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500 placeholder: text-center"
+                        className={inpuClass(isError)}
                     />
                 </div>
 
-                <button
+                {isError && (
+                    <p className="text-red-500 text-xs font-extralight text-center mt-2">
+                        Les mots de passes ne correspondent pas
+                    </p>
+                )}
+
+                <button                    
                     type="submit"
                     className="w-full mt-4 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
                 >
@@ -64,5 +98,5 @@ const formulaireInscription = () => {
     )
 }
 
-export default formulaireInscription
+export default FormulaireInscription
 
