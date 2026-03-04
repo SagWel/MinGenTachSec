@@ -1,21 +1,27 @@
 const bcrypt = require('bcrypt');
 const user = require('../models/UserModel');
+const SALT_ROUNDS = 10;
 
 exports.register = async (req, res) => {
     const { username, email, password } = req.body;
 
-//création de compte
     if (!username || !email || !password)
         return res.status(400).json({ message: 'Champs manquants' });
 
     try {
-        const passwordHash = await bcrypt.hash(password, 10);
+        // Génération du salt
+        const salt = await bcrypt.genSalt(SALT_ROUNDS);
+
+        // Hash du mot de passe avec le salt
+        const passwordHash = await bcrypt.hash(password, salt);
+
         await user.create(username, email, passwordHash);
         res.status(201).json({ message: 'Utilisateur créé' });
     } catch (err) {
         res.status(500).json({ message: 'Erreur serveur', error: err.message });
     }
 };
+
 
 //login
 exports.login = async (req, res) => {

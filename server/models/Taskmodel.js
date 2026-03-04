@@ -14,7 +14,7 @@ const TaskModel = {
   async findall() {
     const [rows] = await db
       .query
-      // 'SELECT id, titre, description FROM TASK'
+      // 'SELECT id, titre, description FROM TASKS'
       ();
     return rows;
   },
@@ -22,7 +22,7 @@ const TaskModel = {
   // Récupérer une tache par ID
   async findById(id) {
     const [rows] = await db.query(
-      // 'SELECT id, titre, description FROM TASK WHERE id = ?',
+      'SELECT id, title, description FROM tasks WHERE id = ?',
       [id],
     );
     return rows[0];
@@ -31,7 +31,7 @@ const TaskModel = {
   // Créer une nouvelle tache
   async create({ titre, description }) {
     const [result] = await db.query(
-      "INSERT INTO tasks (titre, descrition) VALUES (?, ?)",
+      "INSERT INTO tasks (title, description) VALUES (?, ?)",
       [titre, description],
     );
     return result.insertId;
@@ -40,7 +40,7 @@ const TaskModel = {
   // Mettre à jour une tache
   async update(id, { titre, description }) {
     const [result] = await db.query(
-      "UPDATE tasks SET titre = ?, description = ? WHERE id = ?",
+      "UPDATE tasks SET title = ?, description = ? WHERE id = ?",
       [titre, description, id],
     );
     return result.affectedRows;
