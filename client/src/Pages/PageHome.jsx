@@ -9,26 +9,17 @@ const MockTasks = [
         titre: "First task",
         description: "trucs à faire"
     },
-    // {
-    //     id: 2,
-    //     titre: "Second task",
-    //     description: "trucs à faire"
-    // },
-    // {
-    //     id: 3,
-    //     titre: "Third task",
-    //     description: "trucs à faire"
-    // },
 ]
 
-const colors = ["#FFA29A", "#FAF2D9", "#B4F2E5", "#ABD8DF", "#5D6371", "#EEFD43"]
+const colors = ["bg-[#FFA29A] text-black", "bg-[#FAF2D9] text-black", "bg-[#b4f2e5] text-black", "bg-[#ABD8DF] text-black", "bg-[#8495bd] text-white", "bg-[#EEFD43] text-black"]
 const randomIndex = Math.floor(Math.random() * colors.length)
 const randomColor = colors[randomIndex]
 
 const PageHome = () => {
     const urlTaskManagement = import.meta.env.VITE_URL_TASKMANAGEMENT
 
-    const [isOpen, setIsOpen] = useState("hidden")
+    const [isOpenEdit, setIsOpenEdit] = useState("hidden")
+    const [isOpenAdd, setIsOpenAdd] = useState("hidden")
     const [currentId, setCurrentId] = useState(0)
     const [tasks, setTasks] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -64,16 +55,25 @@ const PageHome = () => {
     }
 
     const handleOnClickEdit = (id) => {
-        setIsOpen("block")
+        setIsOpenEdit("block")
         setCurrentId(id)
         const taskIndex = tasks.foundIndex(task => task.id === id)
         setDescription(tasks[taskIndex].description)
+    }
+
+    const handleOnClickAdd = () => {
+        setIsOpenAdd("block")
     }
 
     const handleOnSubmitEdit = async (data) => {
         confirm("Voulez vous faire la modification ?")
         await api.put(`${urlTaskManagement}${currentId}`, data)
         setCurrentId(0)
+    }
+
+    const handleOnSubmitAdd = async (data) => {
+        confirm("Voulez vous créer la tache ?")
+        await api.post(`${urlTaskManagement}`, data)
     }
 
     return (
@@ -107,13 +107,14 @@ const PageHome = () => {
                     {tasks.map((task) => (
                         <TaskCards key={task.id} Task={task} submitDelete={() => handleOnSubmitDelete(task.id)} submitEdit={() => handleOnClickEdit(task.id)}/>
                     ))}
-                    <button className={`bg-color-${randomColor} flex justify-center items-center`}>
+                    <button className={`${randomColor} flex justify-center items-center w-84 h-84 p-7 font-bold`}
+                    onClick={handleOnClickAdd}>
                         <Plus />
                     </button>
                 </div>
                 }
             </div>
-            <div className={`${isOpen} w-full max-w-lg h-fit`}>
+            <div className={`${isOpenEdit} w-full max-w-lg h-fit z-50 absolute top-1/2 right-1/2`}>
                 <h2>Editer la tache</h2>
                 <form className="w-full h-fit">
                     <label htmlFor="content" className="block text-sm font-medium text-gray-700">
@@ -125,6 +126,30 @@ const PageHome = () => {
                     className="w-full mt-auto bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
                     onClick={handleOnSubmitEdit}>
                         Modifier
+                    </button>
+                </form>
+            </div>
+            <div className={`${isOpenAdd} w-full max-w-lg h-fit z-50 absolute top-1/2 right-1/2`}>
+                <h2>Nouvelle tache</h2>
+                <form className="w-full h-fit">
+
+                    <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                        Tache à effectuer
+                    </label>
+                    <input 
+                    name="title" id="title"
+                    type="text"
+                    className="mt-1 w-full rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500 placeholder:text-center"/>
+
+                    <label htmlFor="content" className="block text-sm font-medium text-gray-700">
+                        Infos de la taches :
+                    </label>
+                    <textarea id="content" name="content" maxLength={150} className="resize-none h-24 mt-1 w-full rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500"/>
+
+                    <button type="submit"
+                    className="w-full mt-auto bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+                    onClick={handleOnSubmitAdd}>
+                        Ajouter
                     </button>
                 </form>
             </div>

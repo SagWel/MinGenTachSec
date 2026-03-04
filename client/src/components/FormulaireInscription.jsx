@@ -6,9 +6,9 @@ const FormulaireInscription = ({onClickRegister}) => {
     const [isError, setIsError] = useState(false)
 
     const handleSubmit = (e) => {
-        e.preventDEfault()
+        e.preventDefault()
 
-        if (password >= 8 && password === confirmPassword) {
+        if (password < 8 && password === confirmPassword) {
             setIsError(false)
             onClickRegister()
         } else {

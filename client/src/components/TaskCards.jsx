@@ -1,7 +1,6 @@
 import { X, Pencil } from "lucide-react"
 
 const colors = ["bg-[#FFA29A] text-black", "bg-[#FAF2D9] text-black", "bg-[#b4f2e5] text-black", "bg-[#ABD8DF] text-black", "bg-[#8495bd] text-white", "bg-[#EEFD43] text-black"]
-// const colors = ["red-600", "emerald-600", "slate-600", "indigo-600"]
 const randomIndex = Math.floor(Math.random() * colors.length)
 console.log(randomIndex);
 
