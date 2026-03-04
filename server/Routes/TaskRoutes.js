@@ -1,9 +1,5 @@
 const express = require(`express`);
-<<<<<<< HEAD
-const TaskController = require('../Controllers/TaskController');
-=======
 const TaskController = require("../Controllers/TaskController");
->>>>>>> Nicolas
 const router = express.Router();
 
 router.get("/api/tasks", TaskController.getAll);

@@ -8,10 +8,7 @@ const PageConnexions = () => {
     const [loginRegister, setloginRegister] = useState("login")
     const urlLogin = import.meta.env.VITE_URL_LOGIN
     const urlRegister = import.meta.env.VITE_URL_REGISTER
-<<<<<<< HEAD
     const [data, setData] = useState(null)
-=======
->>>>>>> Nicolas
 
     const handleOnclickSwitch = () => {
         if (loginRegister === "login") {
@@ -23,11 +20,7 @@ const PageConnexions = () => {
     const handleOnSubmitLogin = async () => {
 
         try {
-<<<<<<< HEAD
             await api.post(`${urlLogin}`, data)
-=======
-            await api.get(`${urlLogin}`, data)
->>>>>>> Nicolas
         } catch (error) {
             console.error('Erreur lors de la connexion :', error);
         }
@@ -38,10 +31,6 @@ const PageConnexions = () => {
         
         try {
             await api.post(`${urlRegister}`, data)
-<<<<<<< HEAD
-            
-=======
->>>>>>> Nicolas
         } catch (error) {
             console.error("Erreur lors de l'enregistrement : ", error);
             
