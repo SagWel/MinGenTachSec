@@ -39,7 +39,7 @@ const PageConnexions = () => {
 
     return (
         <div className='h-full flex flex-col items-center justify-between'>
-            {loginRegister === "login" ? <FormulaireConnexion onClickLogin={handleOnSubmitLogin}/> : <FormulaireInscription onClickRegister={handleOnSubmitRegister} set={setData}/>}
+            {loginRegister === "login" ? <FormulaireConnexion onClickLogin={handleOnSubmitLogin} set={setData}/> : <FormulaireInscription onClickRegister={handleOnSubmitRegister} set={setData}/>}
             
             <button type='button' className="w-full max-w-lg mt-4 bg-blue-600 text-white py-8 rounded-full hover:bg-blue-700 transition"
                 onClick={handleOnclickSwitch}>

@@ -1,4 +1,9 @@
-const FormulaireConnexion = ({onClickLogin}) => {
+import { useState } from "react"
+
+const FormulaireConnexion = ({onClickLogin, set}) => {
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
     return (
         <div className="w-96 bg-[#FFA29A] rounded-2xl shadow-lg p-6 flex mt-80 flex-col">
 
@@ -15,6 +20,8 @@ const FormulaireConnexion = ({onClickLogin}) => {
                     <input
                     name="email" id="email"
                         placeholder="Ex : exemple@exemple.com"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         type="email"
                         className="mt-1 w-full rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500 placeholder:text-center"
                     />
@@ -27,6 +34,8 @@ const FormulaireConnexion = ({onClickLogin}) => {
                     <input
                     name="password" id="password"
                         placeholder="********"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         aria-describedby="password-helper"
                         type="password"
                         className="mt-1 w-full rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500 placeholder:text-center"
@@ -42,7 +51,15 @@ const FormulaireConnexion = ({onClickLogin}) => {
                 <button
                     type="submit"
                     className="w-full mt-auto bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
-                    onClick={onClickLogin}
+                    onClick={(e) => {
+                        e.preventDefault()
+                        const data = JSON.stringify({
+                            email: email,
+                            password: password
+                        })
+                        set(data)
+                        onClickLogin()
+                    }}
                 >
                     Connexion
                 </button>
