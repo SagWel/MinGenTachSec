@@ -1,6 +1,7 @@
 import TaskCards from "../components/TaskCards"
 import api from '../api/axios'
 import { useEffect, useState } from "react"
+import { Plus } from 'lucide-react'
 
 const MockTasks = [
     {
@@ -14,6 +15,10 @@ const MockTasks = [
         description: "trucs à faire"
     },
 ]
+
+const colors = ["#FFA29A", "#FAF2D9", "#B4F2E5", "#ABD8DF", "#5D6371", "#EEFD43"]
+const randomIndex = Math.floor(Math.random() * colors.length)
+const randomColor = colors[randomIndex]
 
 const PageHome = () => {
     const urlTaskManagement = import.meta.env.VITE_URL_TASKMANAGEMENT
@@ -93,10 +98,15 @@ const PageHome = () => {
                         <span>Chargement ...</span>
                     </p>
                 </div> : 
-                tasks.map((task) => (
-                    <TaskCards key={task.id} Task={task} submitDelete={() => handleOnSubmitDelete(task.id)} submitEdit={() => handleOnClickEdit(task.id)}/>
-                )
-                )}
+                <div>
+                    {tasks.map((task) => (
+                        <TaskCards key={task.id} Task={task} submitDelete={() => handleOnSubmitDelete(task.id)} submitEdit={() => handleOnClickEdit(task.id)}/>
+                    ))}
+                    <button className={`bg-color-${randomColor} flex justify-center items-center`}>
+                        <Plus />
+                    </button>
+                </div>
+                }
             </div>
             <div className={`${isOpen} w-full max-w-lg h-fit`}>
                 <h2>Editer la tache</h2>
