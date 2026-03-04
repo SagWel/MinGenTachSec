@@ -2,10 +2,10 @@ const db = require('../config/db');
 
 const user = {
     // Création d'un utilisateur
-    async create(pseudo, email, motDePasseHash) {
+    async create(username, email, motDePasseHash) {
         const [result] = await db.execute(
-            'INSERT INTO users (pseudo, email, password) VALUES (?, ?, ?)',
-            [pseudo, email, motDePasseHash]
+            'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)',
+            [username, email, motDePasseHash]
         );
         return result;
     },

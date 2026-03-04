@@ -6,7 +6,9 @@ import api from '../api/axios'
 
 const PageConnexions = () => {
     const [loginRegister, setloginRegister] = useState("login")
-    const urlLoginRegister = import.meta.env.VITE_URL_LOGINREGISTER
+    const urlLogin = import.meta.env.VITE_URL_LOGIN
+    const urlRegister = import.meta.env.VITE_URL_REGISTER
+    const [data, setData] = useState(null)
 
     const handleOnclickSwitch = () => {
         if (loginRegister === "login") {
@@ -15,18 +17,21 @@ const PageConnexions = () => {
         }
     }
 
-    const handleOnSubmitLogin = async (data) => {
+    const handleOnSubmitLogin = async () => {
 
         try {
-            await api.get(`${urlLoginRegister}`, data)
+            await api.post(`${urlLogin}`, data)
         } catch (error) {
             console.error('Erreur lors de la connexion :', error);
         }
     }
 
-    const handleOnSubmitRegister = async (data) => {
+    const handleOnSubmitRegister = async () => {
+        console.log(data);
+        
         try {
-            await api.post(`${urlLoginRegister}`, data)
+            await api.post(`${urlRegister}`, data)
+            
         } catch (error) {
             console.error("Erreur lors de l'enregistrement : ", error);
             
@@ -35,7 +40,7 @@ const PageConnexions = () => {
 
     return (
         <div className='h-full flex flex-col items-center justify-between'>
-            {loginRegister === "login" ? <FormulaireConnexion onClickLogin={handleOnSubmitLogin}/> : <FormulaireInscription onClickRegister={handleOnSubmitRegister}/>}
+            {loginRegister === "login" ? <FormulaireConnexion onClickLogin={handleOnSubmitLogin}/> : <FormulaireInscription onClickRegister={handleOnSubmitRegister} set={setData}/>}
             
             <button type='button' className="w-full max-w-lg mt-4 bg-blue-600 text-white py-8 rounded-full hover:bg-blue-700 transition"
                 onClick={handleOnclickSwitch}>
