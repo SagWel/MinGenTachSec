@@ -6,7 +6,8 @@ import api from '../api/axios'
 
 const PageConnexions = () => {
     const [loginRegister, setloginRegister] = useState("login")
-    const urlLoginRegister = import.meta.env.VITE_URL_LOGINREGISTER
+    const urlLogin = import.meta.env.VITE_URL_LOGIN
+    const urlRegister = import.meta.env.VITE_URL_REGISTER
 
     const handleOnclickSwitch = () => {
         if (loginRegister === "login") {
@@ -18,7 +19,7 @@ const PageConnexions = () => {
     const handleOnSubmitLogin = async (data) => {
 
         try {
-            await api.get(`${urlLoginRegister}`, data)
+            await api.get(`${urlLogin}`, data)
         } catch (error) {
             console.error('Erreur lors de la connexion :', error);
         }
@@ -26,7 +27,7 @@ const PageConnexions = () => {
 
     const handleOnSubmitRegister = async (data) => {
         try {
-            await api.post(`${urlLoginRegister}`, data)
+            await api.post(`${urlRegister}`, data)
         } catch (error) {
             console.error("Erreur lors de l'enregistrement : ", error);
             
