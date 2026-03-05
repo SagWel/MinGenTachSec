@@ -1,18 +1,46 @@
-import { createContext, useState, useEffect, useMemo } from "react";
+import { createContext, useState, useEffect, useCallback, useMemo } from "react";
 import api from '../api/axios'
 
 const AuthContext = createContext();
 
 const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
-
     const [loading, setLoading] = useState(true)
     const [isAuth, setIsAuth] = useState(false)
 
-    const fetchAuthContext = async () => {
-        const urlContext = import.meta.env.VITE_URL_CONTEXT
+    const urlContext = import.meta.env.VITE_URL_CONTEXT
+    const urlLogout = import.meta.env.VITE_URL_LOGOUT
+    
+
+    const logout = useCallback(() => {
+        const fetchLogout = async () => {
+        try {
+            const res = await api.post(`${urlLogout}`)
+
+            if (!res.ok) {
+                throw new Error(`Erreur HTTP: ${res.status}`)
+            }
+
+            setUser(res.data.user)
+            setIsAuth(res.data.isAuth)
+        } catch (error) {
+            setIsAuth(false)
+            setUser(false)
+            setLoading(false)
+            console.error("Erreur lors de la déconnexion : ", error)
+        } 
+    }
+         fetchLogout() 
+        }, [urlLogout])
+
+    useEffect(() => {
+        const fetchAuthContext = async () => {
         try {
             const res = await api.post(`${urlContext}`)
+
+            if (!res.ok) {
+                throw new Error(`Erreur HTTP: ${res.status}`)
+            }
 
             setUser(res.data.user)
             setIsAuth(res.data.isAuth)
@@ -22,28 +50,8 @@ const AuthProvider = ({children}) => {
             
         }
     }
-
-    const fetchLogout = async () => {
-        const urlLogout = import.meta.env.VITE_URL_LOGOUT
-        try {
-            const res = await api.post(`${urlLogout}`)
-
-            setUser(res.data.user)
-            setIsAuth(res.data.isAuth)
-            console.log(res.data.message)
-        } catch (error) {
-            setIsAuth(false)
-            setUser(false)
-            setLoading(false)
-            console.error("Erreur lors de la déconnexion : ", error)
-        } 
-    }
-
-    const logout = () => { fetchLogout() }
-
-    useEffect(() => {
         fetchAuthContext()
-    }, [])
+    }, [urlContext, logout])
 
     const contextValue = useMemo (() => ({
         user,
@@ -51,9 +59,8 @@ const AuthProvider = ({children}) => {
         isAuth,
         setIsAuth,
         loading,
-        setLoading,
         logout
-    }), [user, logout, loading])
+    }), [user, logout, loading, isAuth])
 
     return(
         <AuthContext.Provider value={contextValue}>
