@@ -3,12 +3,16 @@ import FormulaireInscription from '../components/FormulaireInscription'
 import { useState } from 'react'
 import FormulaireConnexion from '../Components/FormulaireConnexion'
 import api from '../api/axios'
+import { useNavigate } from 'react-router-dom'
 
 const PageConnexions = () => {
+
+    const navigate = useNavigate()
+
     const [loginRegister, setloginRegister] = useState("login")
+
     const urlLogin = import.meta.env.VITE_URL_LOGIN
     const urlRegister = import.meta.env.VITE_URL_REGISTER
-    const [data, setData] = useState(null)
 
     const handleOnclickSwitch = () => {
         if (loginRegister === "login") {
@@ -17,20 +21,21 @@ const PageConnexions = () => {
         }
     }
 
-    const handleOnSubmitLogin = async () => {
-
+    const handleOnSubmitLogin = async (data) => {
+        
         try {
             await api.post(`${urlLogin}`, data)
+            navigate(0)
         } catch (error) {
             console.error('Erreur lors de la connexion :', error);
         }
     }
 
-    const handleOnSubmitRegister = async () => {
-        console.log(data);
+    const handleOnSubmitRegister = async (data) => {
         
         try {
             await api.post(`${urlRegister}`, data)
+            navigate(0)
         } catch (error) {
             console.error("Erreur lors de l'enregistrement : ", error);
             
@@ -39,7 +44,7 @@ const PageConnexions = () => {
 
     return (
         <div className='h-full flex flex-col items-center justify-between'>
-            {loginRegister === "login" ? <FormulaireConnexion onClickLogin={handleOnSubmitLogin} set={setData}/> : <FormulaireInscription onClickRegister={handleOnSubmitRegister} set={setData}/>}
+            {loginRegister === "login" ? <FormulaireConnexion onClickLogin={handleOnSubmitLogin} /> : <FormulaireInscription onClickRegister={handleOnSubmitRegister}/>}
             
             <button type='button' className="w-full max-w-lg mt-4 bg-blue-600 text-white py-8 rounded-full hover:bg-blue-700 transition"
                 onClick={handleOnclickSwitch}>

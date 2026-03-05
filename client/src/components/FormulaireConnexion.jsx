@@ -1,8 +1,17 @@
 import { useState } from "react"
 
-const FormulaireConnexion = ({onClickLogin, set}) => {
+const FormulaireConnexion = ({onClickLogin}) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
+    const handleOnSubmit = (e) => {
+        e.preventDefault()
+        const data = JSON.stringify({
+            email: email,
+            password: password
+        })
+        onClickLogin(data)
+    }
 
     return (
         <div className="w-96 bg-[#FFA29A] rounded-2xl shadow-lg p-6 flex mt-80 flex-col">
@@ -51,15 +60,7 @@ const FormulaireConnexion = ({onClickLogin, set}) => {
                 <button
                     type="submit"
                     className="w-full mt-auto bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
-                    onClick={(e) => {
-                        e.preventDefault()
-                        const data = JSON.stringify({
-                            email: email,
-                            password: password
-                        })
-                        set(data)
-                        onClickLogin()
-                    }}
+                    onClick={handleOnSubmit}
                 >
                     Connexion
                 </button>

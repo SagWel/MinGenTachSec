@@ -5,7 +5,8 @@ const TaskController = {
     // GET
     async getAll(req, res, next) {
         try {
-            const tasks = await TaskModel.findAll();
+            const { userId } = req.params
+            const tasks = await TaskModel.findAll(userId);
             res.json(tasks);
         } catch (err) {
             next(err);
