@@ -11,12 +11,15 @@ const db = require(`../config/db`);
 
 const TaskModel = {
   //récupère toutes les taches
-  async findall() {
-    const [rows] = await db
-      .query
-      // 'SELECT id, titre, description FROM TASKS'
-      ();
-    return rows;
+  async findall(userId) {
+    try {
+      const [rows] = await db.query(
+          'SELECT * FROM tasks WHERE user_id = ?', [userId]
+        );
+        return rows[0];
+    } catch (err) {
+      console.error("Erreur lors de la récupèration des taches de l'utilisateur :", err);      
+    }
   },
 
   // Récupérer une tache par ID

@@ -16,11 +16,7 @@ const AuthProvider = ({children}) => {
         const fetchLogout = async () => {
         try {
             const res = await api.post(`${urlLogout}`)
-
-            if (!res.ok) {
-                throw new Error(`Erreur HTTP: ${res.status}`)
-            }
-
+            
             setUser(res.data.user)
             setIsAuth(res.data.isAuth)
         } catch (error) {

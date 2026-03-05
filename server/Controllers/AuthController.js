@@ -4,6 +4,8 @@ const user = require("../models/UserModel");
 const SALT_ROUNDS = 10;
 const jwt = require("jsonwebtoken");
 
+const SESSION_SECRET = process.env.SESSION_SECRET
+
 exports.register = async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -17,29 +19,47 @@ exports.register = async (req, res) => {
     // Hash du mot de passe avec le salt
     const passwordHash = await bcrypt.hash(password, salt);
 
-    const res = await user.create(username, email, passwordHash);
-    if (res) {
-      const userAuth = await user.findByEmail(email);
-      if (userAuth) {
-        const payload = JSON.stringify({
+    const creatUser = await user.create(username, email, passwordHash);
+    const userAuth = await user.findByEmail(email);
+    if (creatUser) {
+      
+        if (!userAuth) {
+          return res.status(404).json({
+            message: "Utilisateur non trouvé aprés création",
+            user: null,
+            isAuth: false
+          })
+        }
+
+        
+        console.log("proutprout");
+        
+        const payload = {
           id: userAuth.id,
           username: userAuth.username,
-          email: userAuth.email,
-          iat: new Date(),
-        });
+          email: userAuth.email
+        };
+        console.log("prout");
+
         const token = jwt.sign(payload, SESSION_SECRET, { expiresIn: "24h" });
-        res.cookie(auth_token, token, {
+        console.log(token);
+        
+        res.cookie('auth_token', token, {
           maxAge: 86400 * 1000,
           path: "/",
           secure: false,
           httpOnly: true,
           sameSite: "Lax",
         });
-      }
+      
     }
     res.status(201).json({
       message: "Utilisateur créé",
       user: {
+<<<<<<< HEAD
+=======
+        id: userAuth.id,
+>>>>>>> origin
         username: userAuth.username,
         email: userAuth.email,
       },
@@ -57,21 +77,23 @@ exports.login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const u = await user.findByEmail(email);
-    if (!u) return res.status(401).json({ message: "Identifiants invalides" });
+    const u = await user.findByEmail(email);    if (!u) return res.status(401).json({ message: "Identifiants invalides email" });
 
-    const valid = await bcrypt.compare(password, u.password);
+    const valid = await bcrypt.compare(password, u.password_hash);
     if (!valid)
-      return res.status(401).json({ message: "Identifiants invalides" });
+      return res.status(401).json({ message: "Identifiants invalides password" });
 
-    const payload = JSON.stringify({
-      id: userAuth.id,
-      username: userAuth.username,
-      email: userAuth.email,
-      iat: new Date(),
-    });
+
+    const payload = {
+      id: u.id,
+      username: u.username,
+      email: u.email
+    };
+    
+
     const token = jwt.sign(payload, SESSION_SECRET, { expiresIn: "24h" });
-    res.cookie(auth_token, token, {
+    
+    res.cookie('auth_token', token, {
       maxAge: 86400 * 1000,
       path: "/",
       secure: false,
@@ -79,55 +101,63 @@ exports.login = async (req, res) => {
       sameSite: "Lax",
     });
 
+    console.log(u);
+    
     res.status(201).json({
-      message: "Utilisateur créé",
+      message: "Connexion réussi",
       user: {
-        username: userAuth.username,
-        email: userAuth.email,
+        id: u.id,
+        username: u.username,
+        email: u.email,
       },
       isAuth: true,
     });
   } catch (err) {
-    res.status(500).json({ message: "Erreur serveur :", err });
+    res.status(500).json({ message: "Erreur lors de la tentative de connexion", erreur : err});
   }
 };
 
 exports.context = async (req, res) => {
-  const token = await cookieStore.get("auth_token").value;
+  const token = req.cookies['auth_token']
   if (!token) {
-    res.status(500).json({
+    res.status(200).json({
       message: "Aucun token trouvé",
       user: null,
       isAuth: false,
     });
-    return;
   }
 
-  const payload = jwt.decode(token);
+  try {
+    const decodedToken = jwt.verify(token, SESSION_SECRET);
+    const userAuth = await user.findByEmail(decodedToken.email);
+    
+    if (!userAuth) {
+     res.status(200).json({
+        message: "Aucun utilisateur trouvé",
+        user: null,
+        isAuth: false,
+      });
+    }
 
-  const userAuth = await user.findByEmail(payload.email);
-
-  if (!userAuth) {
-    res.status(500).json({
-      message: "Aucun utilisateur trouvé",
-      user: null,
-      isAuth: false,
-    });
-    return;
-  }
-
-  res.status(200).json({
+    res.status(200).json({
     message: "Token valide",
     user: {
+      id: userAuth.id,
       username: userAuth.username,
       email: userAuth.email,
     },
     isAuth: true,
   });
+  } catch (error) {
+    res.status(401).json({
+      message: "Token invalide",
+      isAuth: false
+    })
+  }  
 };
 
 exports.logout = async (req, res) => {
-  cookieStore.delete("auth_token");
+  res.clearCookie('auth_token')
   res.status(200).json({
     isAuth: false,
     user: null,

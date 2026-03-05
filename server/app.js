@@ -6,10 +6,14 @@ const authRoutes = require("./Routes/AuthRoutes");
 const app = express();
 const cors = require("cors");
 
+const cookieParser = require('cookie-parser');
+
 const corsOptions = {
   origin: process.env.FRONTURL,
   credentials: true,
 };
+
+app.use(cookieParser())
 
 // Middlewares globaux
 app.use(cors(corsOptions));

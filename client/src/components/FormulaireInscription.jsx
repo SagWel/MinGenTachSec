@@ -1,7 +1,6 @@
-import e from "cors"
 import { useState } from "react"
 
-const FormulaireInscription = ({onClickRegister, set}) => {
+const FormulaireInscription = ({onClickRegister}) => {
     const [password, setPassword] = useState('')
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
@@ -15,12 +14,12 @@ const FormulaireInscription = ({onClickRegister, set}) => {
             email: email,
             password: password
         })
+        console.log(data, confirmPassword);
+        
 
-        set(data)
-
-        if (password < 8 && password === confirmPassword) {
+        if (password.length >= 8 && password == confirmPassword) {
             setIsError(false)
-            onClickRegister()
+            onClickRegister(data)
         } else {
             setIsError(true)
         }

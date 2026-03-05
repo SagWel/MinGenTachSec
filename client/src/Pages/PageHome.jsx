@@ -2,6 +2,7 @@ import TaskCards from "../components/TaskCards"
 import api from '../api/axios'
 import { useEffect, useState } from "react"
 import { Plus } from 'lucide-react'
+import { useAuth } from '../hooks/useAuth'
 
 const MockTasks = [
     {
@@ -16,12 +17,14 @@ const randomIndex = Math.floor(Math.random() * colors.length)
 const randomColor = colors[randomIndex]
 
 const PageHome = () => {
+    const {user} = useAuth()
+
     const urlTaskManagement = import.meta.env.VITE_URL_TASKMANAGEMENT
 
     const [isOpenEdit, setIsOpenEdit] = useState("hidden")
     const [isOpenAdd, setIsOpenAdd] = useState("hidden")
     const [currentId, setCurrentId] = useState(0)
-    const [tasks, setTasks] = useState(null)
+    const [tasks, setTasks] = useState([])
     const [loading, setLoading] = useState(false)
     const [description, setDescription] = useState('')
     const [title, setTitle] = useState('')
@@ -29,8 +32,10 @@ const PageHome = () => {
     useEffect(() => {
         const fetchTasks = async () => {
             setLoading(true)
+            console.log(user);
+            
             try {
-                const res = await api.get(`${urlTaskManagement}`)
+                const res = await api.get(`${urlTaskManagement}${user.id}`)
                 const data = await res.json()
 
                 setTasks(data)
@@ -93,7 +98,7 @@ const PageHome = () => {
         <div className = "flex justify-around w-full">
             <div id="titres" className="text-white text-xl text-left">
                 <ul id="listeTitres">
-                    {loading || !tasks ? 
+                    {loading ? 
                     <div className="text-cyan-200 w-full h-full text-center flex justify-center items-center text-xl">
                         <p>
                             <span>Chargement ...</span>
@@ -110,7 +115,7 @@ const PageHome = () => {
                 </ul>
             </div>
             <div id="cardsContainer">
-                {loading || !tasks ? 
+                {loading ? 
                 <div className="text-cyan-200 w-full h-full text-center flex justify-center items-center text-xl">
                     <p>
                         <span>Chargement ...</span>
