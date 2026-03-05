@@ -20,9 +20,8 @@ exports.register = async (req, res) => {
     const passwordHash = await bcrypt.hash(password, salt);
 
     const creatUser = await user.create(username, email, passwordHash);
+    const userAuth = await user.findByEmail(email);
     if (creatUser) {
-      
-      const userAuth = await user.findByEmail(email);
       
         if (!userAuth) {
           return res.status(404).json({
@@ -31,15 +30,19 @@ exports.register = async (req, res) => {
             isAuth: false
           })
         }
+
+        
+        console.log("proutprout");
         
         const payload = {
           id: userAuth.id,
           username: userAuth.username,
-          email: userAuth.email,
-          iat: new Date(),
+          email: userAuth.email
         };
+        console.log("prout");
 
         const token = jwt.sign(payload, SESSION_SECRET, { expiresIn: "24h" });
+        console.log(token);
         
         res.cookie('auth_token', token, {
           maxAge: 86400 * 1000,
