@@ -94,7 +94,7 @@ const FormulaireInscription = ({onClickRegister}) => {
 
                 {isError && (
                     <p className="text-red-500 text-xs font-extralight text-center mt-2">
-                        Les mots de passes ne correspondent pas
+                        Les mots de passe ne correspondent pas
                     </p>
                 )}
 

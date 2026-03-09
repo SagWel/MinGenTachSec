@@ -80,6 +80,8 @@ const PageHome = () => {
         setTitle(tasks[currentTaskIndex].title)
     }
 
+
+
     const handleOnClickAdd = () => {
         setIsOpenAdd("block")
     }
@@ -117,10 +119,14 @@ const PageHome = () => {
         }
     }
 
+    const onClickListe = () => {
+        
+    }
+
     return (
         <div className = "flex justify-around w-full">
             <div id="titres" className="text-white text-xl text-left">
-                <ul id="listeTitres">
+                <ul id="listeTitres" className="w-full flex flex-col gap-4">
                     {loading ? 
                     <div className="text-cyan-200 w-full h-full text-center flex justify-center items-center text-xl">
                         <p>
@@ -130,7 +136,7 @@ const PageHome = () => {
                     tasks.map((task, index) => {
                         
                         return (
-                            <li key={index}>
+                            <li key={index} className="hover:text-blue-400 cursor-pointer" onClick={() => onClickListe(task.id)}>
                                 {task.title}
                             </li>
                         )
@@ -145,7 +151,7 @@ const PageHome = () => {
                         <span>Chargement ...</span>
                     </p>
                 </div> : 
-                <div className="size-full grid grid-cols-3" id="cards">
+                <div className="size-full grid grid-cols-3 gap-5 ">
                     {tasks.map((task, index) => (
                         <TaskCards key={index} Task={task} randomColor={colors[index]} submitDelete={() => handleOnSubmitDelete(task.id)} submitEdit={() => handleOnClickEdit(task.id)}/>
                     ))}
