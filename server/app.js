@@ -23,14 +23,6 @@ app.use(express.json());
 app.use("/api/tasks", tasksRoutes);
 app.use("/api/auth", authRoutes);
 
-// Middleware de gestion d’erreurs
-// app.use((err, req, res, next) => {
-//     console.error(err);
-//     res.status(500).json({
-//         message: 'Erreur serveur',
-//         error: err.message
-//     });
-// });
 
 // Démarrage du serveur
 const PORT = process.env.PORT || 3000;
