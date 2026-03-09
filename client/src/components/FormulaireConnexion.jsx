@@ -58,10 +58,9 @@ const FormulaireConnexion = ({onClickLogin}) => {
                 </div>
 
                 <button
-                    type="submit"
-                    className="w-full mt-auto bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
-                    onClick={handleOnSubmit}
-                >
+                type="submit"
+                className="w-full mt-auto bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+                onClick={handleOnSubmit}>
                     Connexion
                 </button>
 
