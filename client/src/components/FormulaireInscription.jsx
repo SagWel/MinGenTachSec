@@ -13,9 +13,7 @@ const FormulaireInscription = ({onClickRegister}) => {
             username: username,
             email: email,
             password: password
-        })
-        console.log(data, confirmPassword);
-        
+        })        
 
         if (password.length >= 8 && password == confirmPassword) {
             setIsError(false)

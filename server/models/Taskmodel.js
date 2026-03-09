@@ -11,12 +11,13 @@ const db = require(`../config/db`);
 
 const TaskModel = {
   //récupère toutes les taches
-  async findall(userId) {
+  async findAll(userId) {
     try {
       const [rows] = await db.query(
           'SELECT * FROM tasks WHERE user_id = ?', [userId]
         );
-        return rows[0];
+        
+        return rows;
     } catch (err) {
       console.error("Erreur lors de la récupèration des taches de l'utilisateur :", err);      
     }
@@ -32,19 +33,19 @@ const TaskModel = {
   },
 
   // Créer une nouvelle tache
-  async create({ titre, description }) {
+  async create(userId, { title, description }) {
     const [result] = await db.query(
-      "INSERT INTO tasks (title, description) VALUES (?, ?)",
-      [titre, description],
+      "INSERT INTO tasks (title, description, user_id) VALUES (?, ?, ?)",
+      [title, description, userId],
     );
     return result.insertId;
   },
 
   // Mettre à jour une tache
-  async update(id, { titre, description }) {
+  async update(id, { title, description }) {
     const [result] = await db.query(
       "UPDATE tasks SET title = ?, description = ? WHERE id = ?",
-      [titre, description, id],
+      [title, description, id],
     );
     return result.affectedRows;
   },

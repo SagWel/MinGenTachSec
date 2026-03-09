@@ -3,12 +3,12 @@ const bcrypt = require("bcrypt");
 const user = require("../models/UserModel");
 const SALT_ROUNDS = 10;
 const jwt = require("jsonwebtoken");
-
 const SESSION_SECRET = process.env.SESSION_SECRET;
 
+//Création utilisateur
 exports.register = async (req, res) => {
   const { username, email, password } = req.body;
-
+  //validation des champs (essayer joi?)
   if (!username || !email || !password)
     return res.status(400).json({ message: "Champs manquants" });
 
@@ -19,50 +19,36 @@ exports.register = async (req, res) => {
 
     // Hash du mot de passe avec le salt
     const passwordHash = await bcrypt.hash(password, salt);
-    console.log("stop1");
-
     const creatUser = await user.create(username, email, passwordHash);
-    console.log("stop2");
-
-    if (!creatUser) {
-      return res.status(400).json({
-        message: "Utilisateur non crée",
-        user: null,
-        isAuth: false,
-      });
-    }
-
-    console.log("stop3");
     const userAuth = await user.findByEmail(email);
 
-    console.log("stop3,5");
+    if (creatUser) {
+      //générer le token
+      if (!userAuth) {
+        return res.status(404).json({
+          message: "Utilisateur non trouvé aprés création",
+          user: null,
+          isAuth: false,
+        });
+      }
 
-    if (!userAuth) {
-      return res.status(404).json({
-        message: "Utilisateur non trouvé aprés création",
-        user: null,
-        isAuth: false,
+      const payload = {
+        id: userAuth.id,
+        username: userAuth.username,
+        email: userAuth.email,
+      };
+
+      const token = jwt.sign(payload, SESSION_SECRET, { expiresIn: "24h" });
+
+      res.cookie("auth_token", token, {
+        maxAge: 86400 * 1000,
+        path: "/",
+        secure: false,
+        httpOnly: true,
+        sameSite: "Lax",
       });
     }
 
-    console.log("stop4");
-    const payload = {
-      id: userAuth.id,
-      username: userAuth.username,
-      email: userAuth.email,
-    };
-    console.log("stop5");
-
-    const token = jwt.sign(payload, SESSION_SECRET, { expiresIn: "24h" });
-    console.log("stop6");
-
-    res.cookie("auth_token", token, {
-      maxAge: 86400 * 1000,
-      path: "/",
-      secure: false,
-      httpOnly: true,
-      sameSite: "Lax",
-    });
     res.status(201).json({
       message: "Utilisateur créé",
       user: {
@@ -109,8 +95,6 @@ exports.login = async (req, res) => {
       httpOnly: true,
       sameSite: "Lax",
     });
-
-    console.log(u);
 
     res.status(201).json({
       message: "Connexion réussi",

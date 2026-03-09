@@ -6,6 +6,7 @@ const TaskController = {
     async getAll(req, res, next) {
         try {
             const { userId } = req.params
+            
             const tasks = await TaskModel.findAll(userId);
             res.json(tasks);
         } catch (err) {
@@ -32,15 +33,17 @@ const TaskController = {
     // POST
     async create(req, res, next) {
         try {
-            const { titre, description } = req.body;
-
-            if (!titre || !description) {
+            const { title, description } = req.body;
+            
+            const { userId } = req.params
+            
+            if (!title || !description) {
                 return res.status(400).json({
                     message: 'Titre et descrption requis'
                 });
             }
 
-            const insertId = await TaskModel.create({ titre, description });
+            const insertId = await TaskModel.create(userId, { title, description });
 
             res.status(201).json({
                 message: 'Tâche ajoutée',
@@ -55,9 +58,9 @@ const TaskController = {
     async update(req, res, next) {
         try {
             const { id } = req.params;
-            const { titre, description } = req.body;
+            const { title, description } = req.body;
 
-            const affectedRows = await TaskModel.update(id, { titre, description });
+            const affectedRows = await TaskModel.update(id, { title, description });
 
             if (affectedRows === 0) {
                 return res.status(404).json({ message: 'Tâche non trouvée' });

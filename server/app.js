@@ -20,7 +20,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 // Routes
-app.use("/tasks", tasksRoutes);
+app.use("/api/tasks", tasksRoutes);
 app.use("/api/auth", authRoutes);
 
 // Middleware de gestion d’erreurs
