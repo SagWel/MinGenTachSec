@@ -64,9 +64,10 @@ const PageHome = () => {
 
     const handleOnSubmitDelete = async (id) => {
         try {
-            confirm("Voulez vous vraiment supprimer la tache ?")
-            await api.delete(`${urlTaskManagement}${id}`)
-            navigate(0)
+            if (confirm("Voulez vous vraiment supprimer la tache ?") ) {
+                await api.delete(`${urlTaskManagement}${id}`)
+                navigate(0)
+            }
         } catch (error) {
             console.error(`Erreur lors de la suppression : ${error}`);
         }
@@ -75,11 +76,15 @@ const PageHome = () => {
     const handleOnClickEdit = (id) => {
         setIsOpenEdit("block")
         setCurrentId(id)
-        const currentTaskIndex = tasks.foundIndex(task => task.id === id)
+        const currentTaskIndex = tasks.findIndex(task => task.id === id)
         setDescription(tasks[currentTaskIndex].description)
         setTitle(tasks[currentTaskIndex].title)
     }
 
+    const handleOnclickCloseEdit = (e) => {
+        e.reset()
+        setIsOpenEdit("none")
+    }
 
 
     const handleOnClickAdd = () => {
@@ -87,19 +92,20 @@ const PageHome = () => {
     }
 
     const handleOnSubmitEdit = async () => {
-        confirm("Voulez vous faire la modification ?")
-        const data = JSON.stringify({
-            title: title,
-            description: description
-        })
-        try {
-            await api.put(`${urlTaskManagement}${currentId}`, data)
-            setCurrentId(0)
-            setDescription('')
-            setTitle('')            
-        } catch (error) {
-            console.error("Erreur lors de la tentative de modification de la tache :", error );
-            
+        if (confirm("Voulez vous faire la modification ?")) {
+            const data = JSON.stringify({
+                title: title,
+                description: description
+            })
+            try {
+                await api.put(`${urlTaskManagement}${currentId}`, data)
+                setCurrentId(0)
+                setDescription('')
+                setTitle('')            
+            } catch (error) {
+                console.error("Erreur lors de la tentative de modification de la tache :", error );
+                
+            }            
         }
     }
 
@@ -167,9 +173,14 @@ const PageHome = () => {
                 </div>
                 }
             </div>
-            <div className={`${isOpenEdit} w-full max-w-lg h-fit z-50 absolute top-1/2 right-1/2`}>
-                <h2>Editer la tache</h2>
+            <div className={`${isOpenEdit} w-full max-w-2xl px-14 py-8 h-fit z-50 absolute bg-gray-300 rounded-2xl`}>
+                <h2 className="mb-4 text-2xl">Editer la tache</h2>
                 <form className="w-full h-fit">
+                    <button className="absolute top-0 right-0 m-2"
+                    onClick={handleOnclickCloseEdit}>
+                        <X />                    
+                    </button>
+
                     <label htmlFor="title" className="block text-sm font-medium text-gray-700">
                         Tache à effectuer
                     </label>
