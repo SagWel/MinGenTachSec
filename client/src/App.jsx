@@ -30,6 +30,6 @@ function App() {
           {isAuth && <button onClick={logout} className="absolute top-0 right-0">Deconnexion</button>}          
         </div>
     )
-  } 
+  }
 
 export default App
