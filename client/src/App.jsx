@@ -27,7 +27,9 @@ function App() {
           <div className="flex items-center justify-center size-full">
           {isAuth ? <PageHome /> : <PageConnexions />}
           </div>
-          {isAuth && <button onClick={logout} className="absolute top-0 right-0">Deconnexion</button>}          
+          {isAuth && <button onClick={logout} className="absolute top-0 right-0 hover:text-blue-400 cursor-pointer
+          
+          ">Deconnexion</button>}          
         </div>
     )
   }

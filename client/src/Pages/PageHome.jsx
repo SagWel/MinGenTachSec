@@ -1,7 +1,7 @@
 import TaskCards from "../components/TaskCards"
 import api from '../api/axios'
 import { useEffect, useState } from "react"
-import { Plus } from 'lucide-react'
+import { Plus, X } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 import { useNavigate } from "react-router-dom"
 
@@ -103,6 +103,11 @@ const PageHome = () => {
         }
     }
 
+    const handleOnclickCloseAdd = (e) => {
+        e.reset()
+        setIsOpenAdd("none")
+    }
+
     const handleOnSubmitAdd = async () => {
         // confirm("Voulez vous créer la tache ?")
         const data = JSON.stringify({
@@ -189,7 +194,12 @@ const PageHome = () => {
             </div>
             <div className={`${isOpenAdd} w-full max-w-2xl px-14 py-8 h-fit z-50 absolute bg-gray-300 rounded-2xl`}>
                 <h2 className="mb-4 text-2xl">Nouvelle tache</h2>
+                
                 <form className="w-full h-fit">
+                    <button className="absolute top-0 right-0 m-2"
+                    onClick={handleOnclickCloseAdd}>
+                        <X />                    
+                    </button>
 
                     <label htmlFor="title" className="block text-sm font-medium text-gray-700">
                         Titre
