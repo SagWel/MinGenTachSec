@@ -145,7 +145,7 @@ const PageHome = () => {
                         <span>Chargement ...</span>
                     </p>
                 </div> : 
-                <div className="size-full grid grid-cols-3">
+                <div className="size-full grid grid-cols-3" id="cards">
                     {tasks.map((task, index) => (
                         <TaskCards key={index} Task={task} randomColor={colors[index]} submitDelete={() => handleOnSubmitDelete(task.id)} submitEdit={() => handleOnClickEdit(task.id)}/>
                     ))}
@@ -181,24 +181,24 @@ const PageHome = () => {
                     </button>
                 </form>
             </div>
-            <div className={`${isOpenAdd} w-full max-w-lg h-fit z-50 absolute top-1/2 right-1/2`}>
-                <h2>Nouvelle tache</h2>
+            <div className={`${isOpenAdd} w-full max-w-2xl px-14 py-8 h-fit z-50 absolute bg-gray-300 rounded-2xl`}>
+                <h2 className="mb-4 text-2xl">Nouvelle tache</h2>
                 <form className="w-full h-fit">
 
                     <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-                        Tache à effectuer
+                        Titre
                     </label>
-                    <input 
-                    name="title" id="title"
+                    <input
+                    name="title" id="title" placeholder="Tache à effectuer"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     type="text"
-                    className="mt-1 w-full rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500 placeholder:text-center"/>
+                    className="my-4 w-full rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500 placeholder:text-center"/>
 
                     <label htmlFor="content" className="block text-sm font-medium text-gray-700">
-                        Infos de la taches :
+                        Description
                     </label>
-                    <textarea id="content" name="content" maxLength={150} value={description} onChange={(e) => setDescription(e.target.value)} className="resize-none h-24 mt-1 w-full rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500"/>
+                    <textarea placeholder="Informations de la tâche" id="content" name="content" maxLength={150} value={description} onChange={(e) => setDescription(e.target.value)} className=" mb-4 resize-none h-24 mt-1 w-full rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500 placeholder:text-center"/>
 
                     <button type="submit"
                     className="w-full mt-auto bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"

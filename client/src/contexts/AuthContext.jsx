@@ -34,10 +34,6 @@ const AuthProvider = ({children}) => {
         try {
             const res = await api.post(`${urlContext}`)
 
-            if (!res.ok) {
-                throw new Error(`Erreur HTTP: ${res.status}`)
-            }
-
             setUser(res.data.user)
             setIsAuth(res.data.isAuth)
         } catch (err) {
