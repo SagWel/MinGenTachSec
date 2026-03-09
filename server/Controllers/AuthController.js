@@ -3,12 +3,12 @@ const bcrypt = require("bcrypt");
 const user = require("../models/UserModel");
 const SALT_ROUNDS = 10;
 const jwt = require("jsonwebtoken");
-
 const SESSION_SECRET = process.env.SESSION_SECRET
 
+//Création utilisateur
 exports.register = async (req, res) => {
   const { username, email, password } = req.body;
-
+//validation des champs (essayer joi?)
   if (!username || !email || !password)
     return res.status(400).json({ message: "Champs manquants" });
 
@@ -18,11 +18,13 @@ exports.register = async (req, res) => {
 
     // Hash du mot de passe avec le salt
     const passwordHash = await bcrypt.hash(password, salt);
-
     const creatUser = await user.create(username, email, passwordHash);
     const userAuth = await user.findByEmail(email);
+    
     if (creatUser) {
       
+
+      //générer le token
         if (!userAuth) {
           return res.status(404).json({
             message: "Utilisateur non trouvé aprés création",
@@ -31,18 +33,14 @@ exports.register = async (req, res) => {
           })
         }
 
-        
-        console.log("proutprout");
-        
         const payload = {
           id: userAuth.id,
           username: userAuth.username,
           email: userAuth.email
         };
-        console.log("prout");
+        
 
         const token = jwt.sign(payload, SESSION_SECRET, { expiresIn: "24h" });
-        console.log(token);
         
         res.cookie('auth_token', token, {
           maxAge: 86400 * 1000,
@@ -53,6 +51,7 @@ exports.register = async (req, res) => {
         });
       
     }
+
     res.status(201).json({
       message: "Utilisateur créé",
       user: {
@@ -62,6 +61,7 @@ exports.register = async (req, res) => {
       },
       isAuth: true,
     });
+    
   } catch (err) {
     res
       .status(500)
@@ -97,8 +97,6 @@ exports.login = async (req, res) => {
       httpOnly: true,
       sameSite: "Lax",
     });
-
-    console.log(u);
     
     res.status(201).json({
       message: "Connexion réussi",

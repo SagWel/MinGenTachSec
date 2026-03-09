@@ -9,7 +9,7 @@ const user = {
         );
         return result[0];
     },
-
+//connexion
     async findByEmail(email) {
         const [result] = await db.query(
             `SELECT * FROM users WHERE email = ?`, [email]

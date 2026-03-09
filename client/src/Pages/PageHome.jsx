@@ -3,6 +3,7 @@ import api from '../api/axios'
 import { useEffect, useState } from "react"
 import { Plus } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
+import { useNavigate } from "react-router-dom"
 
 const MockTasks = [
     {
@@ -16,29 +17,42 @@ const colors = ["bg-[#FFA29A] text-black", "bg-[#FAF2D9] text-black", "bg-[#b4f2
 const randomIndex = Math.floor(Math.random() * colors.length)
 const randomColor = colors[randomIndex]
 
+
 const PageHome = () => {
     const {user} = useAuth()
+    const navigate = useNavigate()
 
     const urlTaskManagement = import.meta.env.VITE_URL_TASKMANAGEMENT
 
     const [isOpenEdit, setIsOpenEdit] = useState("hidden")
     const [isOpenAdd, setIsOpenAdd] = useState("hidden")
     const [currentId, setCurrentId] = useState(0)
-    const [tasks, setTasks] = useState([])
     const [loading, setLoading] = useState(false)
     const [description, setDescription] = useState('')
     const [title, setTitle] = useState('')
+    const [tasks, setTasks] = useState([])
+    
+    useEffect(() => {
+    tasks.forEach(() => {
+        const cardColors = []
+        const randomCardIndex = Math.floor(Math.random() * colors.length)
+        const randomCardColor = colors[randomCardIndex]
+        cardColors.push(randomCardColor)
+    });
+}, [tasks])
 
     useEffect(() => {
         const fetchTasks = async () => {
             setLoading(true)
-            console.log(user);
             
             try {
                 const res = await api.get(`${urlTaskManagement}${user.id}`)
-                const data = await res.json()
 
-                setTasks(data)
+                if (res.data) {
+
+                    setTasks(res.data)
+                    
+                } 
                 setLoading(false)
             } catch (err) {
                 console.error('Erreur lors de la récupérations des tasks :', err)
@@ -46,14 +60,13 @@ const PageHome = () => {
         }
 
     fetchTasks()
-    },[urlTaskManagement])
+    },[urlTaskManagement, user])
 
     const handleOnSubmitDelete = async (id) => {
-        setCurrentId(id)
         try {
             confirm("Voulez vous vraiment supprimer la tache ?")
-            await api.delete(`${urlTaskManagement}${currentId}`)
-            setCurrentId(0)
+            await api.delete(`${urlTaskManagement}${id}`)
+            navigate(0)
         } catch (error) {
             console.error(`Erreur lors de la suppression : ${error}`);
         }
@@ -77,21 +90,31 @@ const PageHome = () => {
             title: title,
             description: description
         })
-        await api.put(`${urlTaskManagement}${currentId}`, data)
-        setCurrentId(0)
-        setDescription('')
-        setTitle('')
+        try {
+            await api.put(`${urlTaskManagement}${currentId}`, data)
+            setCurrentId(0)
+            setDescription('')
+            setTitle('')            
+        } catch (error) {
+            console.error("Erreur lors de la tentative de modification de la tache :", error );
+            
+        }
     }
 
     const handleOnSubmitAdd = async () => {
-        confirm("Voulez vous créer la tache ?")
+        // confirm("Voulez vous créer la tache ?")
         const data = JSON.stringify({
             title: title,
             description: description
         })
-        await api.post(`${urlTaskManagement}`, data)
-        setDescription('')
-        setTitle('')        
+        try {
+            await api.post(`${urlTaskManagement}${user.id}`, data)
+            setDescription('')
+            setTitle('')        
+            
+        } catch (error) {
+            console.error("Erreur lors de la tentative d'ajout de la tache :", error );
+        }
     }
 
     return (
@@ -104,10 +127,11 @@ const PageHome = () => {
                             <span>Chargement ...</span>
                         </p>
                     </div> : 
-                    tasks.map((task) => {
+                    tasks.map((task, index) => {
+                        
                         return (
-                            <li key={task.id}>
-                                {task.titre}
+                            <li key={index}>
+                                {task.title}
                             </li>
                         )
                     })
@@ -122,8 +146,8 @@ const PageHome = () => {
                     </p>
                 </div> : 
                 <div className="size-full grid grid-cols-3">
-                    {tasks.map((task) => (
-                        <TaskCards key={task.id} Task={task} submitDelete={() => handleOnSubmitDelete(task.id)} submitEdit={() => handleOnClickEdit(task.id)}/>
+                    {tasks.map((task, index) => (
+                        <TaskCards key={index} Task={task} randomColor={colors[index]} submitDelete={() => handleOnSubmitDelete(task.id)} submitEdit={() => handleOnClickEdit(task.id)}/>
                     ))}
                     <button className={`${randomColor} flex justify-center items-center w-84 h-84 p-7 font-bold`}
                     onClick={handleOnClickAdd}>
