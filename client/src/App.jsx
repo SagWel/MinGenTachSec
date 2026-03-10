@@ -21,15 +21,15 @@ function App() {
   }
 
     return (
-      <div className="flex items-center justify-between relative flex-col 
-        h-full text-center pt-12">
-          <h1 className='text-gray-50 text-4xl'>Sticky Pocket</h1>
+      <div className="flex relative flex-col size-full text-center pt-12">
+          <h1 className='text-gray-50 text-4xl h-fit'>Sticky Pocket</h1>
           <div className="flex items-center justify-center size-full">
           {isAuth ? <PageHome /> : <PageConnexions />}
           </div>
-          {isAuth && <button onClick={logout} className="absolute top-0 right-0 hover:text-blue-400 cursor-pointer
-          
-          ">Deconnexion</button>}          
+          {isAuth && 
+          <button onClick={logout} className="absolute top-0 right-0 hover:text-blue-400 cursor-pointer">
+            Deconnexion
+          </button>}          
         </div>
     )
   }

@@ -27,7 +27,7 @@ const FormulaireInscription = ({onClickRegister}) => {
     ${hasError ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}`
 
     return (
-        <div className="w-96 bg-[#FAF2D9] rounded-2xl mt-70 shadow-lg p-6 flex flex-col">
+        <div className="w-96 bg-[#FAF2D9] rounded-2xl shadow-lg p-6 flex flex-col">
 
             <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">
                 Création de compte

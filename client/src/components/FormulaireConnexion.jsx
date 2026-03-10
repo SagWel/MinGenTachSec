@@ -14,7 +14,7 @@ const FormulaireConnexion = ({onClickLogin}) => {
     }
 
     return (
-        <div className="w-96 bg-[#FFA29A] rounded-2xl shadow-lg p-6 flex mt-80 flex-col">
+        <div className="w-96 bg-[#FFA29A] rounded-2xl shadow-lg p-6 flex flex-col">
 
             <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">
                 Connexion
