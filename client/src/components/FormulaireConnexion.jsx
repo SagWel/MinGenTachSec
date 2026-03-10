@@ -1,47 +1,66 @@
-const FormulaireConnexion = () => {
+import { useState } from "react"
+import { LogIn } from "lucide-react"
+
+const FormulaireConnexion = ({ onClickLogin }) => {
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const handleOnSubmit = (e) => {
+        e.preventDefault()
+        const data = JSON.stringify({
+            email: email,
+            password: password
+        })
+        onClickLogin(data)
+    }
+
     return (
-        <div className="w-96 bg-[#FFA29A] rounded-2xl shadow-lg p-6 flex flex-col">
+        <div className="w-96 bg-gradient-to-br from-[#FFA29A] to-[#FFB8B1] rounded-3xl shadow-2xl p-8 flex mt-80 flex-col animate-slide-in">
 
-            <h2 className="text-xl font-bold text-gray-800 mb-8 text-center">
-                Connexion
-            </h2>
+            <div className="flex items-center justify-center gap-2 mb-6">
+                <LogIn className="w-6 h-6 text-gray-800" />
+                <h2 className="text-2xl font-bold text-gray-800 text-center">
+                    Connexion
+                </h2>
+            </div>
 
-            <form className="space-y-6 grow flex flex-col">
+            <form className="space-y-4">
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="email" className="block text-sm font-semibold text-gray-800 mb-2">
                         Email
                     </label>
                     <input
-                        placeholder="Ex : exemple@exemple.com"
+                        name="email" id="email"
+                        placeholder="exemple@exemple.com"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         type="email"
-                        className="mt-1 w-full rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500 placeholder:text-center"
+                        className="mt-1 w-full px-4 py-3 rounded-xl border-2 border-transparent bg-white/80 focus:bg-white focus:ring-2 focus:ring-pink-400 focus:border-pink-400 transition-all placeholder:text-gray-400 text-gray-800"
                     />
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="password" className="block text-sm font-semibold text-gray-800 mb-2">
                         Mot de passe
                     </label>
                     <input
-                        placeholder="********"
+                        name="password" id="password"
+                        placeholder="••••••••"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         aria-describedby="password-helper"
                         type="password"
-                        className="mt-1 w-full rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500 placeholder:text-center"
+                        className="mt-1 w-full px-4 py-3 rounded-xl border-2 border-transparent bg-white/80 focus:bg-white focus:ring-2 focus:ring-pink-400 focus:border-pink-400 transition-all placeholder:text-gray-400 text-gray-800"
                     />
-                    <div id="password-helper" className="text-sm font-extralight flex flex-col">
-                        <span>8 caractères minimum</span>
-                        <span>1 majuscule</span>
-                        <span>1 chiffre</span>
-                        <span>1 caractère spécial</span>
-                    </div>
                 </div>
 
                 <button
                     type="submit"
-                    className="w-full mt-auto bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+                    className="w-full mt-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white py-3 rounded-xl hover:from-pink-600 hover:to-rose-600 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
+                    onClick={handleOnSubmit}
                 >
-                    Connexion
+                    Se connecter
                 </button>
 
             </form>
