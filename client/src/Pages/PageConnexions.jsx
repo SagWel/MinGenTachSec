@@ -43,7 +43,7 @@ const PageConnexions = () => {
     }
 
     return (
-        <div className='flex flex-col items-center justify-between py-10 h-full'>
+        <div className='flex flex-col items-center justify-between h-fit'>
             {loginRegister === "login" ? <FormulaireConnexion onClickLogin={handleOnSubmitLogin} /> : <FormulaireInscription onClickRegister={handleOnSubmitRegister}/>}
             
             <button type='button' className="w-full max-w-lg mt-4 bg-blue-600 text-white py-8 rounded-full hover:bg-blue-700 transition"
