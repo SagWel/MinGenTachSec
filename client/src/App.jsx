@@ -27,7 +27,7 @@ function App() {
           {isAuth ? <PageHome /> : <PageConnexions />}
           </div>
           {isAuth && 
-          <button onClick={logout} className="absolute top-0 right-0 hover:text-blue-400 cursor-pointer">
+          <button onClick={logout} className="absolute m-4 top-0 right-0 hover:text-blue-400 cursor-pointer">
             Deconnexion
           </button>}          
         </div>
