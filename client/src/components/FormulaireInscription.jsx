@@ -98,6 +98,14 @@ const FormulaireInscription = ({onClickRegister}) => {
                     </p>
                 )}
 
+                
+                    <div id="password-helper" className="text-sm font-extralight flex flex-col">
+                        <span>8 caractères minimum</span>
+                        <span>1 majuscule</span>
+                        <span>1 chiffre</span>
+                        <span>1 caractère spécial</span>
+                    </div>
+
                 <button
                 onClick={handleOnClick}
                     type="submit"
