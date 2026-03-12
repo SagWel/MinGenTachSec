@@ -13,12 +13,9 @@ exports.register = async (req, res) => {
   //validation des champs
   if (!username || !email || !password)
     return res.status(400).json({ message: "Champs manquants" });
-
   try {
-
     // Génération du salt
     const salt = await bcrypt.genSalt(SALT_ROUNDS);
-    console.log("stop");
 
     // Hash du mot de passe avec le salt
     const passwordHash = await bcrypt.hash(password, salt);
@@ -26,7 +23,6 @@ exports.register = async (req, res) => {
     const userAuth = await user.findByEmail(email);
 
     if (creatUser) {
-      
       //générer le token
       if (!userAuth) {
         return res.status(404).json({
