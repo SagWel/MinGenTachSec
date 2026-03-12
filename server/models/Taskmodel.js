@@ -7,7 +7,7 @@ const db = require(`../config/db`);
   } catch (err) {
     console.error('❌ BDD indisponible', err);
   }
-})();
+});
 
 const TaskModel = {
   //récupère toutes les taches
