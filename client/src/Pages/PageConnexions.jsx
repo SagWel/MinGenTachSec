@@ -1,7 +1,7 @@
 import '../styles.css'
 import FormulaireInscription from '../components/FormulaireInscription'
 import { useState } from 'react'
-import FormulaireConnexion from '../Components/FormulaireConnexion'
+import FormulaireConnexion from '../components/FormulaireConnexion'
 import api from '../api/axios'
 import { useNavigate } from 'react-router-dom'
 
