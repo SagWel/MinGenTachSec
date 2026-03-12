@@ -116,10 +116,51 @@ exports.login = async (req, res) => {
   }
 };
 
+// exports.context = async (req, res) => {
+//   const token = req.cookies["auth_token"];
+//   if (!token) {
+//     res.status(200).json({
+//       message: "Aucun token trouvé",
+//       user: null,
+//       isAuth: false,
+//     });
+//   }
+
+//   try {
+//     const decodedToken = jwt.verify(token, SESSION_SECRET);
+//     const userAuth = await user.findByEmail(decodedToken.email);
+
+//     if (!userAuth) {
+//       res.status(200).json({
+//         message: "Aucun utilisateur trouvé",
+//         user: null,
+//         isAuth: false,
+//       });
+//     }
+
+//     res.status(200).json({
+//       message: "Token valide",
+//       user: {
+//         id: userAuth.id,
+//         username: userAuth.username,
+//         email: userAuth.email,
+//       },
+//       isAuth: true,
+//     });
+//   } catch (error) {
+//     res.status(401).json({
+//       message: "Token invalide",
+//       isAuth: false,
+//       error: error,
+//     });
+//   }
+// };
 exports.context = async (req, res) => {
   const token = req.cookies["auth_token"];
+  
   if (!token) {
-    res.status(200).json({
+    // Le return ici empêche d'entrer dans le bloc try
+    return res.status(200).json({
       message: "Aucun token trouvé",
       user: null,
       isAuth: false,
@@ -127,18 +168,19 @@ exports.context = async (req, res) => {
   }
 
   try {
-    const decodedToken = jwt.verify(token, SESSION_SECRET);
+    const decodedToken = jwt.verify(token, process.env.SESSION_SECRET); // Utilise process.env
     const userAuth = await user.findByEmail(decodedToken.email);
 
     if (!userAuth) {
-      res.status(200).json({
+      return res.status(200).json({
         message: "Aucun utilisateur trouvé",
         user: null,
         isAuth: false,
       });
     }
 
-    res.status(200).json({
+    // Le return ici est une bonne pratique, même en fin de bloc
+    return res.status(200).json({
       message: "Token valide",
       user: {
         id: userAuth.id,
@@ -148,14 +190,14 @@ exports.context = async (req, res) => {
       isAuth: true,
     });
   } catch (error) {
-    res.status(401).json({
+    // Si jwt.verify échoue, on arrive ici
+    return res.status(401).json({
       message: "Token invalide",
       isAuth: false,
-      error: error,
+      error: error.message, // .message est plus propre pour l'affichage
     });
   }
 };
-
 exports.logout = async (req, res) => {
   res.clearCookie("auth_token");
   res.status(200).json({
