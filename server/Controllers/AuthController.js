@@ -96,6 +96,7 @@ exports.login = async (req, res) => {
       secure: true,
       httpOnly: true,
       sameSite: "none",
+      partitioned: true
     });
 
     res.status(201).json({
