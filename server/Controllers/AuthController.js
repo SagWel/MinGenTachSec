@@ -46,9 +46,9 @@ exports.register = async (req, res) => {
       res.cookie("auth_token", token, {
         maxAge: 86400 * 1000,
         path: "/",
-        secure: process.env.SECURE_ENV,
+        secure: 'production',
         httpOnly: true,
-        sameSite: process.env.SAMESITE_ENV //protection CSRF
+        sameSite: 'lax' //protection CSRF
       });
     }
 
