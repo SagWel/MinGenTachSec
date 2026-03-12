@@ -6,7 +6,7 @@ const authRoutes = require("./Routes/AuthRoutes");
 const app = express();
 const cors = require("cors");
 
-const cookieParser = require("cookie-parser");
+const cookieParser = require("cookie-parser");//middleware pour lire et décoder cookie
 
 const corsOptions = {
   origin: process.env.FRONTURL,

@@ -18,11 +18,12 @@ exports.register = async (req, res) => {
 
     // Génération du salt
     const salt = await bcrypt.genSalt(SALT_ROUNDS);
-    console.log("stop");
+    
 
     // Hash du mot de passe avec le salt
     const passwordHash = await bcrypt.hash(password, salt);
     const creatUser = await user.create(username, email, passwordHash);
+
     const userAuth = await user.findByEmail(email);
 
     if (creatUser) {
@@ -44,12 +45,13 @@ exports.register = async (req, res) => {
 
       const token = jwt.sign(payload, SESSION_SECRET, { expiresIn: "24h" });
 
+// on envoie dans un cookie
       res.cookie("auth_token", token, {
         maxAge: 86400 * 1000,
         path: "/",
         secure: false,
         httpOnly: true,
-        sameSite: "Lax",
+        sameSite: "Lax",//protection CSRF
       });
     }
 
@@ -101,7 +103,7 @@ exports.login = async (req, res) => {
     });
 
     res.status(201).json({
-      message: "Connexion réussi",
+      message: "Connexion réussie",
       user: {
         id: u.id,
         username: u.username,
@@ -162,6 +164,6 @@ exports.logout = async (req, res) => {
   res.status(200).json({
     isAuth: false,
     user: null,
-    message: "déconnexion effectée",
+    message: "déconnexion effectuée",
   });
 };
