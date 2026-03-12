@@ -9,7 +9,7 @@ const pool = mysql.createPool({
     database: process.env.DB_DATABASE
 });
 
-console.log(process.env.DB_HOST,process.env.DB_USER,process.env.DB_PASSWORD,process.env.DB_DATABASE);
+console.log('ff'process.env.DB_HOST,process.env.DB_USER,process.env.DB_PASSWORD,process.env.DB_DATABASE);
 
 
 module.exports = pool.promise();
