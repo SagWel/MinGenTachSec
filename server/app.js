@@ -9,7 +9,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");//middleware pour lire et décoder cookie
 
 const corsOptions = {
-  origin: process.env.FRONTURL,
+  origin: 'https://mingentachsec-front.onrender.com',
   credentials: true,
 };
 
